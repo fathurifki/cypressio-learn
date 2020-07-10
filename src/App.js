@@ -8,6 +8,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -30,6 +33,17 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paperModal: {
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
 
 function Copyright() {
@@ -48,9 +62,31 @@ function Copyright() {
 function App() {
   const classes = useStyles();
   const [label, setLabel] = React.useState(true)
+  const [open, setOpen] = React.useState(false);
+  const [data, setData] = React.useState({
+    name: ''
+  })
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const setCheckBox = (event) => {
     setLabel(event.target.checked)
+  }
+
+  const inputHandle = (evt) => {
+    const name = evt.target.name
+    const value = evt.target.value
+
+    setData((prevState) => ({
+      ...prevState,
+      [name]: value
+    }))
   }
 
   return (
@@ -74,6 +110,7 @@ function App() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={(e) => inputHandle(e) }
           />
           <TextField
             variant="outlined"
@@ -97,6 +134,7 @@ function App() {
           variant="contained"
           color="primary"
           className={classes.submit}
+          onClick={handleOpen}
         >
           Sign In
         </Button>
@@ -116,6 +154,25 @@ function App() {
       <Box mt={8}>
         <Copyright />
       </Box>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <div className={classes.paperModal}>
+            <h2 id="transition-modal-title">Congratulation !</h2>
+            <p id="transition-modal-description">Anda Berhasil Login</p>
+          </div>
+        </Fade>
+      </Modal>
     </Container>
   )
 }
