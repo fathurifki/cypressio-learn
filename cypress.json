@@ -1,1 +1,19 @@
-{}
+{
+    "baseUrl": "https://ecstatic-mahavira-dcba2a.netlify.app",
+    "reporter": "cypress-multi-reporters",
+    "reporterOptions": {
+        "reporterEnabled": "mochawesome",
+        "mochawesomeReporterOptions": {
+            "reportDir": "cypress/reports/mocha",
+            "quite": true,
+            "overwrite": false,
+            "html": false,
+            "json": true
+        },
+        "videosFolder": "integration-reports/integration/public/videos",
+        "screenshotsFolder": "integration-reports/integration/public/screenshots",
+        "videoCompression": false,
+        "browser": "chrome",
+        "chromeWebSecurity": false
+    }
+}
